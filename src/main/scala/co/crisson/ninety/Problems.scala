@@ -51,7 +51,7 @@ object ListProblems {
   }
 
   /**
-    * Incomplete
+    * TODO
     */
   //  def pack(xs: List[Any]): List[List[Any]] = xs.foldLeft(List(List[Any]())) { (accum: List[List[Any]], x: Any) =>
   //    x match {
@@ -75,12 +75,56 @@ object ListProblems {
 
   def drop[A](n: Int, xss: List[A]): List[A] = {
     def doDrop(m: Int, xs: List[A]): List[A] = xs match {
-      case Nil            => Nil
+      case Nil                       => Nil
       case a :: rest if add1(m) == n => doDrop(0, rest)
-      case a :: rest           => a :: doDrop(add1(m), rest)
+      case a :: rest                 => a :: doDrop(add1(m), rest)
     }
 
     doDrop(0, xss)
   }
 
+  def split[A](x: Int, xs: List[A]): (List[A], List[A]) = {
+    (xs.take(x), xs.takeRight(xs.length - x))
+  }
+
+  def slice[A](i: Int, k: Int, xs: List[A]): List[A] = xs match {
+    case a :: rest if k == 0 => Nil
+    case a :: rest if i > 0  => slice(i - 1, k - 1, rest)
+    case a :: rest           => a :: slice(0, k - 1, rest)
+    case _                   => Nil
+  }
+
+  def rotate[A](i: Int, xs: List[A]): List[A] = {
+    val n = if (i > 0) i else xs.length + i
+
+    if (i == 0) {
+      xs
+    } else {
+      val (a, b) = split(n, xs)
+      b ++ a
+    }
+  }
+
+  /**
+   * TODO
+   */
+  def removeAt[A](i: Int, xs: List[A]): (List[A], A) = ???
+
+  def insertAt[A](x: A, i: Int, xs: List[A]): List[A] = xs match {
+    case a :: rest if i == 0 => x :: a :: rest
+    case a :: rest           => a :: insertAt(x, i - 1, rest)
+    case _                   => Nil
+  }
+  
+  def range(i: Int, k: Int): List[Int] = {
+    if (i == k) k :: Nil
+    else i :: range(i + 1, k)
+  }
+  
+  /**
+   * TODO
+   */
+  def randomSelect[A](i: Int, xs: List[A]): List[A] = ???
 }
+
+
