@@ -1,6 +1,7 @@
 package co.crisson.ninety
 
 import scala.annotation.tailrec
+import scala.util.Random
 
 object ListProblems {
 
@@ -11,7 +12,7 @@ object ListProblems {
   @tailrec
   def last[A](xs: List[A]): A = xs match {
     case a :: Nil  => a
-    case a :: rest => last[A](rest)
+    case a :: rest => last(rest)
   }
 
   @tailrec
@@ -105,26 +106,45 @@ object ListProblems {
     }
   }
 
-  /**
-   * TODO
-   */
-  def removeAt[A](i: Int, xs: List[A]): (List[A], A) = ???
+  def removeAt[A](i: Int, xs: List[A]): (List[A], A) = {
+    def remove(n: Int, ys: List[A]): List[A] = ys match {
+      case a :: rest if n == 0 => rest 
+      case a :: rest           => a :: remove(n - 1, rest)
+    }
+    
+    (remove(i, xs), xs(i))
+  }
 
   def insertAt[A](x: A, i: Int, xs: List[A]): List[A] = xs match {
     case a :: rest if i == 0 => x :: a :: rest
     case a :: rest           => a :: insertAt(x, i - 1, rest)
     case _                   => Nil
   }
-  
+
   def range(i: Int, k: Int): List[Int] = {
     if (i == k) k :: Nil
     else i :: range(i + 1, k)
   }
-  
+
   /**
-   * TODO
-   */
-  def randomSelect[A](i: Int, xs: List[A]): List[A] = ???
+    * TODO
+    */
+  def randomSelect[A](i: Int, xs: List[A]): List[A] = {
+    val random = new Random
+    var n = i
+	var ys = xs
+	var gs: List[A] = Nil
+    
+    while (n > 0) {
+      println(n)
+      val (zs, z) = removeAt(random.nextInt(ys.length), ys)
+      ys = zs
+      gs = z :: gs
+      n -= 1
+    }
+    
+    gs.reverse
+  }
 }
 
 
