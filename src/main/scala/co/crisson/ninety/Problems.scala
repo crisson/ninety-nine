@@ -141,6 +141,21 @@ object ListProblems {
     
     countdown(i, xs).reverse
   }
+  
+  def lotto(n: Int, m: Int): List[Int] = {
+    val random = new Random
+    
+    @tailrec
+    def countdown(i: Int, xs: List[Int]): List[Int] = {
+      if (i == 0) xs
+      else {
+        val next = random.nextInt(m)
+        countdown(i - 1, next :: xs)
+      }
+    }
+    
+    countdown(n, Nil)
+  }
 }
 
 
