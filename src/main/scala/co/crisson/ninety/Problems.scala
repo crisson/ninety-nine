@@ -156,6 +156,10 @@ object ListProblems {
     
     countdown(n, Nil)
   }
+  
+  def randomPermute[A](xs: List[A]): List[A] = {
+    randomSelect(xs.length, xs)
+  }
 }
 
 
