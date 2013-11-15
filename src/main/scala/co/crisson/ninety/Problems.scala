@@ -126,24 +126,20 @@ object ListProblems {
     else i :: range(i + 1, k)
   }
 
-  /**
-    * TODO
-    */
+  
   def randomSelect[A](i: Int, xs: List[A]): List[A] = {
     val random = new Random
-    var n = i
-	var ys = xs
-	var gs: List[A] = Nil
     
-    while (n > 0) {
-      println(n)
-      val (zs, z) = removeAt(random.nextInt(ys.length), ys)
-      ys = zs
-      gs = z :: gs
-      n -= 1
+    @tailrec
+    def countdown(n: Int, ys: List[A], gs: List[A] = List.empty): List[A] = {
+      if (n == 0) gs
+      else {
+        val (ux, u) = removeAt(random.nextInt(ys.length), ys)
+        countdown(n - 1, ux, u :: gs)
+      }
     }
     
-    gs.reverse
+    countdown(i, xs).reverse
   }
 }
 
